@@ -3,7 +3,7 @@
 ENSPD IA PIZZA - API Flask
 Système de prise de commande de pizza par NLP
 """
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 import sys, os, json, uuid
 
@@ -27,6 +27,11 @@ def get_panier(session_id):
 
 @app.route("/", methods=["GET"])
 def accueil():
+    return render_template("index.html")
+
+
+@app.route("/api", methods=["GET"])
+def api_info():
     return jsonify({
         "message": "Bienvenue chez ENSPD IA PIZZA !",
         "endpoints": ["/order (POST)", "/menu (GET)", "/cart/<session_id> (GET)", "/cart/<session_id>/clear (POST)"]

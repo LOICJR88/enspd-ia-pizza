@@ -134,3 +134,49 @@ Clientèle avec Des Services Vocaux" - ENSPD.
 
 ## Inspiration
 Basé sur le template [Sheng-Kai-IBM/Embeddable-AI-Voice-Ordering](https://github.com/Sheng-Kai-IBM/Embeddable-AI-Voice-Ordering)
+
+
+## Phase 1 — Analyse du template GitHub (Sheng-Kai-IBM/Embeddable-AI-Voice-Ordering)
+
+Le dépôt officiel a été cloné et analysé. Constats :
+
+- Le template utilise **Watson Speech-to-Text / Text-to-Speech** via des
+  endpoints `sn-watson-stt` / `sn-watson-tts` réservés à l'environnement
+  **IBM Skills Network Labs** — non accessibles publiquement, donc non
+  réutilisables tels quels hors de ce lab.
+- Architecture multi-pages séquentielle (adresse → garniture → confirmation),
+  extraction par mots-clés simples, sans gestion de panier ni d'intents
+  multiples (pas de modification/annulation/fallback).
+- Pas d'API JSON réutilisable : la logique métier est mêlée au rendu HTML.
+
+**Choix retenu** : conserver le **principe d'architecture** (Flask +
+commande vocale de pizza) mais réimplémenter avec :
+- un moteur NLP maison plus complet (8 intents, 4 types d'entités, panier,
+  fallback),
+- une API REST JSON découplée et réutilisable,
+- la reconnaissance vocale via la **Web Speech API du navigateur**
+  (gratuite, sans dépendance cloud propriétaire), assurant la même
+  fonctionnalité "commande par la voix" de manière portable et reproductible.
+
+## Interface Web (Chat + Voix)
+
+Une interface de chat est servie directement par Flask à la racine `/` :
+
+- Champ texte pour taper une commande
+- Bouton micro 🎤 (reconnaissance vocale en français via Web Speech API,
+  compatible Chrome/Edge)
+- Affichage en temps réel du panier et du total
+- Appelle en arrière-plan l'API `/order` et `/cart/<session_id>`
+
+Accès : ouvrir l'URL ngrok (ou localhost:5000 en local) dans Chrome/Edge.
+
+## Endpoints mis à jour
+
+| Méthode | Endpoint | Description |
+|---------|----------|-------------|
+| GET | `/` | Interface de chat (HTML + voix) |
+| GET | `/api` | Informations API (JSON) |
+| GET | `/menu` | Menu complet (JSON) |
+| POST | `/order` | Traite un message client |
+| GET | `/cart/<session_id>` | Panier d'une session |
+| POST | `/cart/<session_id>/clear` | Vide le panier |
