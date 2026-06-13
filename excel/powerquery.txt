@@ -1,0 +1,28 @@
+
+// ===========================================
+// POWER QUERY - ENSPD IA PIZZA
+// Données > Obtenir des données > Depuis Internet
+// Coller l'URL ci-dessous (Avancé), puis ajouter le code M dans
+// Éditeur avancé
+// ===========================================
+
+let
+    url = "https://unfrozen-audience-remedial.ngrok-free.dev/order",
+    sessionId = "test1",
+    texteCommande = "Je veux une grande margherita avec du pepperoni",
+
+    jsonBody = "{""session_id"":""" & sessionId & """, ""text"":""" & texteCommande & """}",
+
+    response = Json.Document(
+        Web.Contents(
+            url,
+            [
+                Headers = [#"Content-Type"="application/json"],
+                Content = Text.ToBinary(jsonBody)
+            ]
+        )
+    ),
+
+    message = response[message]
+in
+    message

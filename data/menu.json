@@ -1,0 +1,24 @@
+
+{
+  "pizzas": {
+    "margherita": {"prix_base": 4000, "description": "Tomate, mozzarella, basilic"},
+    "reine": {"prix_base": 4500, "description": "Jambon, champignons, mozzarella"},
+    "vegetarienne": {"prix_base": 4500, "description": "Poivrons, oignons, olives, mozzarella"},
+    "quatre fromages": {"prix_base": 5000, "description": "Mozzarella, gorgonzola, parmesan, chèvre"},
+    "pepperoni": {"prix_base": 5000, "description": "Pepperoni, mozzarella, sauce tomate"}
+  },
+  "tailles": {
+    "petite": 0,
+    "moyenne": 1000,
+    "grande": 2000,
+    "extra-large": 3000
+  },
+  "extras": {
+    "olives": 300,
+    "fromage supplementaire": 500,
+    "champignons": 400,
+    "oignons": 200,
+    "pepperoni": 700,
+    "ananas": 400
+  }
+}
